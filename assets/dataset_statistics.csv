@@ -1,0 +1,4 @@
+Split,Images,Total Pedestrians,Avg per Image,Small,Medium,Large,Small %,Medium %,Large %
+train,1200,8138,6.78,809,5449,1880,9.9,67.0,23.1
+val,300,2337,7.79,423,1592,322,18.1,68.1,13.8
+test,200,2068,10.34,529,1270,269,25.6,61.4,13.0
