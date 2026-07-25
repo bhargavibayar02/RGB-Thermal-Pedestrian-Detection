@@ -1,0 +1,50 @@
+<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; font-size: 12px; color: var(--text-secondary);">
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #2a78d6;"></span>Fusion (QFDet)</span>
+  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; border-radius: 2px; background: #eb6834;"></span>Thermal-only</span>
+  <span style="display: flex; align-items: center; gap: 4px;"><span width: 10px; height: 10px; border-radius: 2px; background: #1baf7a;"></span>RGB-only</span>
+</div>
+<div style="position: relative; width: 100%; height: 320px;">
+  <canvas id="modalityChart" role="img" aria-label="Grouped bar chart comparing Fusion, Thermal-only, and RGB-only QFDet models across mAP, mAP50, mAP75, mAP small, mAP medium, and mAP large metrics">
+    mAP: Fusion 0.299, Thermal 0.232, RGB 0.041. mAP50: Fusion 0.674, Thermal 0.547, RGB 0.191. mAP75: Fusion 0.227, Thermal 0.166, RGB 0.003. mAP-Small: Fusion 0.129, Thermal 0.080, RGB 0.020. mAP-Medium: Fusion 0.299, Thermal 0.225, RGB 0.050. mAP-Large: Fusion 0.554, Thermal 0.538, RGB 0.074.
+  </canvas>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const labels = ['mAP', 'mAP50', 'mAP75', 'mAP-S', 'mAP-M', 'mAP-L'];
+const fusion = [0.299, 0.674, 0.227, 0.129, 0.299, 0.554];
+const thermal = [0.232, 0.547, 0.166, 0.080, 0.225, 0.538];
+const rgb = [0.041, 0.191, 0.003, 0.020, 0.050, 0.074];
+
+const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+const textMuted = isDark ? '#898781' : '#898781';
+const gridColor = isDark ? '#2c2c2a' : '#e1e0d9';
+
+new Chart(document.getElementById('modalityChart'), {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [
+      { label: 'Fusion (QFDet)', data: fusion, backgroundColor: isDark ? '#3987e5' : '#2a78d6', borderRadius: 4, maxBarThickness: 22 },
+      { label: 'Thermal-only', data: thermal, backgroundColor: isDark ? '#d95926' : '#eb6834', borderRadius: 4, maxBarThickness: 22 },
+      { label: 'RGB-only', data: rgb, backgroundColor: isDark ? '#199e70' : '#1baf7a', borderRadius: 4, maxBarThickness: 22 }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 0.75,
+        ticks: { color: textMuted, font: { size: 11 }, callback: (v) => v.toFixed(2) },
+        grid: { color: gridColor }
+      },
+      x: {
+        ticks: { color: textMuted, font: { size: 12 } },
+        grid: { display: false }
+      }
+    }
+  }
+});
+</script>
